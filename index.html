@@ -1,62 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-    <title>Pokemons</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Pokedex</title>
 </head>
+
 <body>
-  
-    
-    <div>
-        <h2>Pokemon-API</h2>
-        <div id="myData"></div>
-      </div>
-      
-     
 
+    <style>
+        body {
+          background-image: url("/pokedeximg.png");
+          background-repeat: no-repeat;
+        }
+        </style>
+  <div style="margin-top: 75px; padding: 80px;">
+    <h2>Pokedex</h2>
+    <input id="nameInput">
+    <button type="submit" id="submitButton" onclick="myFunction()">Search</button>
+    <p id="name"></p>
+    <p id="weight"></p>
+    <p id="height"></p>
+    <div id="types"></div>
+    <div style="max-inline-size: fit-content"id="abilities"></div>
 
-<script>
-    var mainContainer = document.getElementById("myData");
-    var url = "https://pokeapi.co/api/v2/pokemon/blastoise";
-    fetch(url,{
-    "method": "GET",
-}).then(response => response.json())
-.then(data => {
-  console.log(data) 
-    var div = document.getElementById("myData");
-    var name = document.createTextNode('Name: ' + data.name); 
-    var baseexp = document.createTextNode("Base experience: " + data.base_experience); 
-    var weight = document.createTextNode('Weight: ' + data.weight + " lbs"); 
-    //var type = document.createTextNode('Weight: ' + data.type + " lbs"); 
+  </div>
 
-    
-    
-    //var stats = document.createTextNode("Stats: " + data.stats);      Försöka lösa sen
-   
-   
-  // var statArray = [];                                    Försöka lösa sen
-    
-    div.appendChild(name);  
-    
-   // statArray.forEach(createTextNode(data.name) {
-   // console.log('data.name')                               Försöka lösa sen
-    //        });
-    
-    
-    //div.appendChild(stats);                                   Försöka lösa sen
-    div.appendChild(baseexp);      
-    div.appendChild(weight);
-    //div.appendChild(type);
-    mainContainer.appendChild(div);
+  <script>
+    function myFunction() {
+      var inputVal = document.getElementById("nameInput").value;
+      var mainContainer = document.getElementById("myData");
+      var url = "https://pokeapi.co/api/v2/pokemon/" + inputVal + "/";
+      fetch(url, {
+        "method": "GET",
+      }).then(response => response.json())
+        .then(data => {
+          console.log("HEJHEJ");
+          document.getElementById("name").innerHTML = 'Name: ' + data.name;
+          document.getElementById("weight").innerHTML = 'Weight: ' + data.weight + ' lbs';
+          document.getElementById("height").innerHTML = 'Height: ' + data.height + ' foot';
 
-}).catch((err) => {
-    console.log(err)
-});
-</script>
+          var types = data.types;
+          var index;
+          var indexType
+          var count = 1;
+          var listing = '<ul>'
 
+          for (index = 0; index < types.length; ++index) {
+            var node = document.createTextNode(types[index].type.name);
+            listing += '<li>' + 'Type: ' + count + ': ' + types[index].type.name + '</li>';
+            count++
+          }
+          listing += '</ul>';
+
+          var abilities = data.abilities;
+          var count = 1;
+
+          for (index = 0; index < abilities.length; ++index) {
+            var node2 = document.createTextNode(abilities[index].ability.name);
+            listing += '<li>' + 'Ability ' + count + ': ' + abilities[index].ability.name + '</li>';
+            count++
+          }
+          listing += '</ul>';
+          document.getElementById("abilities").innerHTML = listing;
+
+        }).catch((err) => {
+          console.log(err)
+        });
+    }
+  </script>
 
 </body>
 </html>
