@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>Pokemons</title>
+</head>
+<body>
+  
+    
+    <div>
+        <h2>Pokemon-API</h2>
+        <div id="myData"></div>
+      </div>
+      
+     
+
+
+<script>
+    var mainContainer = document.getElementById("myData");
+    var url = "https://pokeapi.co/api/v2/pokemon/blastoise";
+    fetch(url,{
+    "method": "GET",
+}).then(response => response.json())
+.then(data => {
+  console.log(data) 
+    var div = document.getElementById("myData");
+    var name = document.createTextNode('Name: ' + data.name); 
+    var baseexp = document.createTextNode("Base experience: " + data.base_experience); 
+    var weight = document.createTextNode('Weight: ' + data.weight + " lbs"); 
+    //var type = document.createTextNode('Weight: ' + data.type + " lbs"); 
+
+    
+    
+    //var stats = document.createTextNode("Stats: " + data.stats);      Försöka lösa sen
+   
+   
+  // var statArray = [];                                    Försöka lösa sen
+    
+    div.appendChild(name);  
+    
+   // statArray.forEach(createTextNode(data.name) {
+   // console.log('data.name')                               Försöka lösa sen
+    //        });
+    
+    
+    //div.appendChild(stats);                                   Försöka lösa sen
+    div.appendChild(baseexp);      
+    div.appendChild(weight);
+    //div.appendChild(type);
+    mainContainer.appendChild(div);
+
+}).catch((err) => {
+    console.log(err)
+});
+</script>
+
+
+</body>
+</html>
