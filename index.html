@@ -11,12 +11,12 @@
 
 <body>
 
-    <style>
-        body {
-          background-image: url("/pokedeximg.png");
-          background-repeat: no-repeat;
-        }
-        </style>
+  <style>
+    body {
+      background-image: url("/pokedeximg.png");
+      background-repeat: no-repeat;
+    }
+  </style>
   <div style="margin-top: 75px; padding: 80px;">
     <h2>Pokedex</h2>
     <input id="nameInput">
@@ -25,11 +25,27 @@
     <p id="weight"></p>
     <p id="height"></p>
     <div id="types"></div>
-    <div style="max-inline-size: fit-content"id="abilities"></div>
+    <div style="max-inline-size: fit-content" id="abilities"></div>
 
   </div>
-
+  <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js"></script>
   <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBGlbglv1XKnltqt0wEds58UGOSnwIkU7Y",
+      authDomain: "poke-api-d1673.firebaseapp.com",
+      databaseURL: "https://poke-api-d1673.firebaseio.com",
+      projectId: "poke-api-d1673",
+      storageBucket: "poke-api-d1673.appspot.com",
+      messagingSenderId: "672005527535",
+      appId: "1:672005527535:web:d02378f6ebb61245b6481a"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+
     function myFunction() {
       var inputVal = document.getElementById("nameInput").value;
       var mainContainer = document.getElementById("myData");
@@ -66,12 +82,31 @@
           }
           listing += '</ul>';
           document.getElementById("abilities").innerHTML = listing;
-
+          saveData(data.name, data.height, data.abilities, data.weight, data.types);
         }).catch((err) => {
           console.log(err)
         });
+
     }
+
+    function saveData(name, height, ability, weight, types) {
+
+      db.collection("pokedb").doc(name).set({
+        Name: name,
+        Weight: weight + " lbs",
+        Height: height + " feet",
+        Type: types,
+        Ability: ability,
+      }).then(function () {
+        console.log("success");
+      }).catch(function (error) {
+        console.error("error", error);
+      });
+
+    }
+
   </script>
 
 </body>
+
 </html>
